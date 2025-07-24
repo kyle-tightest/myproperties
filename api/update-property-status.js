@@ -1,5 +1,5 @@
 
-import { updatePropertyStatus } from '../lib/db';
+import { updatePropertyStatus } from '../lib/db.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'PUT') {

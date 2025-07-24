@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropertyCard from './components/PropertyCard';
 
+const filters = [
+  { key: 'all', label: 'All' },
+  { key: 'viewedonline', label: 'Seen' },
+  { key: 'contactedagent', label: 'Contacted' },
+  { key: 'viewedproperty', label: 'Inspected' },
+  { key: 'madeoffer', label: 'Offered' },
+];
+
 function App() {
   const [properties, setProperties] = useState([]);
   const [filteredProperties, setFilteredProperties] = useState([]);
@@ -43,15 +51,19 @@ function App() {
       <header className="bg-gray-800 border-b-2 border-cyan-400 p-4 flex justify-between items-center">
         <h1 className="text-3xl font-bold text-cyan-400 tracking-wider">MyProperties</h1>
         <div className="flex space-x-4">
-          <button onClick={() => setFilter('all')} className={`px-4 py-2 rounded-md ${filter === 'all' ? 'bg-cyan-400 text-gray-900' : 'bg-gray-700'}`}>All</button>
-          <button onClick={() => setFilter('viewedonline')} className={`px-4 py-2 rounded-md ${filter === 'viewedonline' ? 'bg-cyan-400 text-gray-900' : 'bg-gray-700'}`}>Viewed</button>
-          <button onClick={() => setFilter('contactedagent')} className={`px-4 py-2 rounded-md ${filter === 'contactedagent' ? 'bg-cyan-400 text-gray-900' : 'bg-gray-700'}`}>Contacted</button>
-          <button onClick={() => setFilter('viewedproperty')} className={`px-4 py-2 rounded-md ${filter === 'viewedproperty' ? 'bg-cyan-400 text-gray-900' : 'bg-gray-700'}`}>Inspected</button>
-          <button onClick={() => setFilter('madeoffer')} className={`px-4 py-2 rounded-md ${filter === 'madeoffer' ? 'bg-cyan-400 text-gray-900' : 'bg-gray-700'}`}>Offered</button>
+          {filters.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setFilter(key)}
+              className={`px-4 py-2 rounded-md ${filter === key ? 'bg-cyan-400 text-gray-900' : 'bg-gray-700'}`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
       </header>
-      <main className="p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <main className="p-8 relative z-10">
+        <div className="grid grid-cols-1 gap-8">
           {filteredProperties.map(property => (
             <PropertyCard key={property.id} property={property} onStatusChange={handleStatusChange} />
           ))}
